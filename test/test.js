@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies
  */
@@ -9,9 +8,9 @@ var instagram = require('../')
   , isArray = Array.isArray
 
 
-var clientid = '84b8379131024d66b371893f37fa4164'
-  , clientsecret = '679d714cc9f14227a0660106432d8707'
-  , token = '225592026.84b8379.8ff8dc7bc1d64a6089472fd34cfe32b9'
+var clientid = ''
+  , clientsecret = ''
+  , token = ''
   , id = 225592026
   , fid = 13582298
   , mid = '483178086954225017_235142610'
