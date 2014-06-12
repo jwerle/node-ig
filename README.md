@@ -6,12 +6,10 @@ Simple wrapper around the v1 Instagram API
 ## install
 
 ```
-$ npm install socialised-instagram
+$ npm install ig
 ```
 
 ## usage
-
-
 
 ## api
 
