@@ -1,6 +1,6 @@
 {
-  "name": "socialised-instagram",
-  "version": "0.0.3",
+  "name": "ig",
+  "version": "0.0.4",
   "description": "Wraps the Instagram v1 API",
   "main": "index.js",
   "scripts": {
