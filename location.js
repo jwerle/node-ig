@@ -5,7 +5,7 @@
 
 var core = require('./core')
   , Resource = core.Resource
-
+  , onresp = core.onresp
 
 /**
  * Expose `Location`
@@ -38,12 +38,13 @@ Location.search = function (data, fn) {
 	fn = ('function' === typeof data)? data : fn;
 	data = 'string' === typeof data? {q: data} : data;
 	data = 'object' === typeof data? data: {};
-	return Resource('locations')
+	return (
+    Resource('locations')
 		.path('search')
 		.query(data || {})
-		.get(fn);
+		.get(onresp(fn))
+  );
 };
-
 
 /**
  * Get basic information about a tag
@@ -53,13 +54,12 @@ Location.search = function (data, fn) {
  */
 
 Location.prototype.info = function (fn) {
-	return this.get(fn);
+	return this.get(onresp(fn));
 };
 
-
 /**
- * Get a list of recent media objects from a given location. 
- * 	May return a mix of both image and video types
+ * Get a list of recent media objects from a given location.
+ * May return a mix of both image and video types
  *
  * @api public
  * @param {Object} `data` - optional
@@ -69,5 +69,5 @@ Location.prototype.info = function (fn) {
 Location.prototype.recent = function (data, fn) {
 	fn = ('function' === typeof data)? data : fn;
 	data = ('object' === typeof data)? data : {};
-	return this.path('media/recent').query(data || {}).get(fn);
+	return this.path('media/recent').query(data || {}).get(onresp(fn));
 };

@@ -5,7 +5,7 @@
 
 var core = require('./core')
   , Resource = core.Resource
-
+  , onresp = core.onresp
 
 /**
  * Expose `Tag`
@@ -38,10 +38,12 @@ Tag.search = function (data, fn) {
 	fn = ('function' === typeof data)? data : fn;
 	data = 'string' === typeof data? {q: data} : data;
 	data = 'object' === typeof data? data: {};
-	return Resource('tags')
+	return (
+    Resource('tags')
 		.path('search')
 		.query(data || {})
-		.get(fn);
+		.get(onresp(fn))
+  );
 };
 
 
@@ -53,18 +55,18 @@ Tag.search = function (data, fn) {
  */
 
 Tag.prototype.info = function (fn) {
-	return this.get(fn);
+	return this.get(onresp(fn));
 };
 
 
 /**
- * Get a list of recently tagged media. 
- * Note that this media is ordered by when 
- * the media was tagged with this tag, 
- * rather than the order it was posted. 
- * Use the max_tag_id and min_tag_id 
- * parameters in the pagination response 
- * to paginate through these objects. 
+ * Get a list of recently tagged media.
+ * Note that this media is ordered by when
+ * the media was tagged with this tag,
+ * rather than the order it was posted.
+ * Use the max_tag_id and min_tag_id
+ * parameters in the pagination response
+ * to paginate through these objects.
  * Can return a mix of image and video types
  *
  * @api public
@@ -75,5 +77,5 @@ Tag.prototype.info = function (fn) {
 Tag.prototype.recent = function (data, fn) {
 	fn = ('function' === typeof data)? data : fn;
 	data = ('object' === typeof data)? data : {};
-	return this.path('media/recent').query(data || {}).get(fn);
+	return this.path('media/recent').query(data || {}).get(onresp(fn));
 };

@@ -12,3 +12,7 @@ logs
 results
 
 npm-debug.log
+node_modules/
+client_id
+client_secret
+client_token

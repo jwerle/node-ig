@@ -22,5 +22,8 @@
   "dependencies": {
     "through": "~2.3.4",
     "request": "~2.25.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
   }
 }

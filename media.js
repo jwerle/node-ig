@@ -5,7 +5,7 @@
 
 var core = require('./core')
   , Resource = core.Resource
-
+  , onresp = core.onresp
 
 /**
  * Expose `Media`
@@ -26,7 +26,6 @@ function Media (opts) {
 // inherit from `Resource`
 Media.prototype.__proto__ = Resource.prototype;
 
-
 /**
  *
  * @api public
@@ -38,12 +37,13 @@ Media.search = function (data, fn) {
 	fn = ('function' === typeof data)? data : fn;
 	data = 'string' === typeof data? {q: data} : data;
 	data = 'object' === typeof data? data: {};
-	return Resource('media')
-		.path('search')
+	return (
+    Resource('media')
+    .path('search')
 		.query(data || {})
-		.get(fn);
+		.get(onresp(fn))
+  );
 };
-
 
 /**
  *
@@ -52,9 +52,12 @@ Media.search = function (data, fn) {
  */
 
 Media.popular = function (fn) {
-	return Resource('media').path('popular').get(fn);
+	return (
+    Resource('media')
+    .path('popular')
+    .get(onresp(fn))
+  );
 };
-
 
 /**
  * Get basic information about some media
@@ -64,9 +67,8 @@ Media.popular = function (fn) {
  */
 
 Media.prototype.info = function (fn) {
-	return this.get(fn);
+	return this.get(onresp(fn));
 };
-
 
 /**
  * Get a full list of comments on a media.
@@ -76,9 +78,8 @@ Media.prototype.info = function (fn) {
  */
 
 Media.prototype.comments = function (fn) {
-	return this.path('comments').get(fn);
+	return this.path('comments').get(onresp(fn));
 };
-
 
 /**
  * Creates a comment on a media
@@ -91,9 +92,8 @@ Media.prototype.comments = function (fn) {
 Media.prototype.comment = function (opts, fn) {
 	if ('object' !== typeof opts) throw new TypeError("expecting `object`");
 	else if (!opts.id) throw new Error("missing `.id` in `opts` object");
-	return this.path('comments/'+ opts.id).post(fn);
+	return this.path('comments/'+ opts.id).post(onresp(fn));
 };
-
 
 /**
  * Remove a comment either on the authenticated user's media or authored by the authenticated user.
@@ -107,9 +107,8 @@ Media.prototype.deleteComment =
 Media.prototype.removeComment = function (opts, fn) {
 	if ('object' !== typeof opts) throw new TypeError("expecting `object`");
 	else if (!opts.comment) throw new Error("missing `.comment` in `opts` object");
-	return this.path('comments').del(opts, fn);
+	return this.path('comments').del(opts, onresp(fn));
 };
-
 
 /**
  * Get a full list of likes on a media.
@@ -119,9 +118,8 @@ Media.prototype.removeComment = function (opts, fn) {
  */
 
 Media.prototype.likes = function (fn) {
-	return this.path('likes').get(fn);
+	return this.path('likes').get(onresp(fn));
 };
-
 
 /**
  * Creates a comment on a media
@@ -133,9 +131,8 @@ Media.prototype.likes = function (fn) {
 Media.prototype.like = function (fn) {
 	if ('object' !== typeof opts) throw new TypeError("expecting `object`");
 	else if (!opts.id) throw new Error("missing `.id` in `opts` object");
-	return this.path('comments/'+ opts.id).del(fn);
+	return this.path('comments/'+ opts.id).del(onresp(fn));
 };
-
 
 /**
  * Remove a comment either on the authenticated user's media or authored by the authenticated user.
@@ -148,6 +145,5 @@ Media.prototype.like = function (fn) {
 Media.prototype.unlike = function (fn) {
 	if ('object' !== typeof opts) throw new TypeError("expecting `object`");
 	else if (!opts.comment) throw new Error("missing `.comment` in `opts` object");
-	return this.path('comments').post(opts, fn);
+	return this.path('comments').post(opts, onresp(fn));
 };
-
