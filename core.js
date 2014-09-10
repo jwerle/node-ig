@@ -160,7 +160,7 @@ core.url = function (path, omitVersion) {
     return [
       END_POINT,
       (false === omitVersion ? '' : 'v'+ VERSION), (path || '')
-    ].join('/');
+    ].join('/').trim().replace('\n', '');
   }
 };
 
