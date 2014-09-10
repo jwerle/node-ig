@@ -1,6 +1,6 @@
 {
   "name": "ig",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Wraps the Instagram v1 API",
   "main": "index.js",
   "scripts": {
